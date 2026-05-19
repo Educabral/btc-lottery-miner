@@ -43,11 +43,16 @@ let minerStartTime = 0;
 
 const { execSync } = require('child_process');
 
-// Verifica se o cpuminer está de fato rodando no Windows (fonte de verdade)
+// Verifica se o cpuminer está de fato rodando (fonte de verdade)
 function isMinerRunning() {
   try {
-    const result = execSync('tasklist /fi "imagename eq cpuminer-sse2.exe" /fo csv /nh', { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] });
-    return result.toLowerCase().includes('cpuminer-sse2.exe');
+    if (os.platform() === 'win32') {
+      const result = execSync('tasklist /fi "imagename eq cpuminer-sse2.exe" /fo csv /nh', { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] });
+      return result.toLowerCase().includes('cpuminer-sse2.exe');
+    } else {
+      const result = execSync('pgrep -f cpuminer-linux', { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] });
+      return result.trim().length > 0;
+    }
   } catch(e) { return false; }
 }
 
@@ -56,12 +61,23 @@ function startMinerReal(wallet, power = 50) {
     try { minerProcess.kill(); } catch(e) {}
     minerProcess = null;
   }
-  try { execSync('taskkill /f /im cpuminer-sse2.exe', { stdio: 'ignore' }); } catch(e) {}
+  try { 
+    if (os.platform() === 'win32') {
+      execSync('taskkill /f /im cpuminer-sse2.exe', { stdio: 'ignore' }); 
+    } else {
+      execSync('pkill -f cpuminer-linux', { stdio: 'ignore' }); 
+    }
+  } catch(e) {}
 
   if (!wallet) return;
 
-  const minerPath = path.join(__dirname, 'miner', 'cpuminer-sse2.exe');
+  const minerExec = os.platform() === 'win32' ? 'cpuminer-sse2.exe' : 'cpuminer-linux';
+  const minerPath = path.join(__dirname, 'miner', minerExec);
   if (!fs.existsSync(minerPath)) return;
+
+  if (os.platform() !== 'win32') {
+    try { fs.chmodSync(minerPath, '755'); } catch(e) {}
+  }
 
   let threads = Math.max(1, Math.floor((os.cpus().length * power) / 100));
   if (power >= 100) threads = os.cpus().length;

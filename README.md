@@ -5,9 +5,10 @@
 ![Bitcoin](https://img.shields.io/badge/Bitcoin-Solo_Mining-F7931A?style=for-the-badge&logo=bitcoin&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-Backend-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 ![Windows](https://img.shields.io/badge/Windows-Compatible-0078D6?style=for-the-badge&logo=windows&logoColor=white)
+![Linux](https://img.shields.io/badge/Linux-Compatible-FCC624?style=for-the-badge&logo=linux&logoColor=black)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-**Transforme seu PC com Windows em um Nó Minerador Solo real do Bitcoin.**
+**Transforme seu PC com Windows ou Linux em um Nó Minerador Solo real do Bitcoin.**
 
 [⚡ Comunidade no Telegram](https://t.me/Degenzone21) • [🌐 Public Pool](https://web.public-pool.io)
 
@@ -17,7 +18,7 @@
 
 ## 🎯 O que é este projeto?
 
-O **Software BTC Lottery Miner** é uma interface premium para mineração solo de Bitcoin em qualquer PC com Windows. O objetivo não é ganhar centavos todo dia — é participar da **loteria do bloco**: cada cálculo gerado é um ticket real na disputa pelos **3.125 BTC** do prêmio oficial da rede.
+O **Software BTC Lottery Miner** é uma interface premium para mineração solo de Bitcoin em qualquer PC com Windows ou Linux. O objetivo não é ganhar centavos todo dia — é participar da **loteria do bloco**: cada cálculo gerado é um ticket real na disputa pelos **3.125 BTC** do prêmio oficial da rede.
 
 > ⚠️ **Este NÃO é um simulador.** O software utiliza o motor `cpuminer-sse2.exe` conectado diretamente à rede Bitcoin via protocolo Stratum (SHA-256d). Cada hash é verificável ao vivo na Public Pool.
 
@@ -49,7 +50,7 @@ O **Software BTC Lottery Miner** é uma interface premium para mineração solo 
 ## 📦 Instalação
 
 ### Requisitos
-- Windows 10 ou 11
+- Windows 10/11 ou distribuições Linux (Ubuntu, Mint, Debian, etc)
 - Node.js instalado ([download aqui](https://nodejs.org))
 - Carteira Bitcoin própria (`bc1q...`, `bc1p...`, `1...` ou `3...`)
 
@@ -68,8 +69,9 @@ cd btc-lottery-miner
 npm install
 
 # 4. Inicie o software
-# Dê dois cliques em INICIAR.bat
-# OU execute via terminal:
+# No Windows: Dê dois cliques em INICIAR.bat
+# No Linux: Rode `bash INICIAR.sh` no terminal
+# OU execute manualmente em qualquer sistema:
 node server.js
 ```
 
