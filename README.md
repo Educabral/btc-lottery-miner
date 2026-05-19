@@ -111,13 +111,7 @@ A rede Bitcoin gera um novo bloco a cada ~10 minutos. Cada bloco é um sorteio n
 
 Este software é mais poderoso que o NerdMiner físico, porém mais fraco que ASICs profissionais como o Bitaxe. É um minerador de loteria — honesto, real e verificável.
 
----
 
-## 🥋 Pool Black Belts (Em Breve)
-
-Em breve lançaremos a **Pool Black Belts** — a pool da comunidade brasileira, onde todos os membros minerarão juntos, concentrando ainda mais força na rede.
-
-👉 Participe da comunidade: [t.me/Degenzone21](https://t.me/Degenzone21)
 
 ---
 
