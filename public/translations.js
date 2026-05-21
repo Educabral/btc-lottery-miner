@@ -119,7 +119,13 @@ const dict = {
   "de": "of",
   "núcleos": "cores",
   "🌐 VER MEU WORKER NA PUBLIC POOL →": "🌐 VIEW MY WORKER ON PUBLIC POOL →",
-  "Dias": "Days"
+  "Dias": "Days",
+  "Número do bloco atual sendo minerado pela rede Bitcoin. A cada bloco encontrado, toda a rede avança. Você compete por todos eles em tempo real.": "Current block number being mined by the Bitcoin network. With every block found, the entire network advances. You compete for all of them in real-time.",
+  "Dificuldade atual da rede Bitcoin. Quanto maior, mais difícil é encontrar um bloco. Suas chances de ganhar são de 1 em bilhões, mas o prêmio é de 3.125 BTC.": "Current difficulty of the Bitcoin network. The higher it is, the harder it is to find a block. Your chances of winning are 1 in billions, but the prize is 3.125 BTC.",
+  "O Halving corta ao meio a recompensa dos mineradores. Após o próximo, o prêmio cairá de 3.125 para 1.5625 BTC. Minere agora enquanto a recompensa ainda está alta!": "The Halving cuts miners' rewards in half. After the next one, the prize will drop from 3.125 to 1.5625 BTC. Mine now while the reward is still high!",
+  "Pool de mineração que encontrou o último bloco na rede. Grandes pools como Foundry e AntPool dominam, por isso a mineração solo é chamada de loteria - mas qualquer um pode ganhar!": "Mining pool that found the last block on the network. Huge pools like Foundry and AntPool dominate, which is why solo mining is called a lottery - but anyone can win!",
+  "Cada 'ticket' é um hash enviado e aceito pela Public Pool. Quanto mais tickets por segundo, maiores são suas chances de ganhar o Jackpot de 3.125 BTC.": "Each 'ticket' is a hash sent and accepted by the Public Pool. The more tickets per second, the higher your chances of winning the 3.125 BTC Jackpot.",
+  "O hash mais próximo que você chegou de ganhar o Jackpot. Quanto maior esse número, mais perto você chegou do bloco. Se um dia chegar a 2^256, você ganhou 3.125 BTC!": "The closest hash you got to winning the Jackpot. The higher this number, the closer you got to the block. If one day it reaches 2^256, you won 3.125 BTC!"
 };
 
 let currentLang = localStorage.getItem('lang') || 'pt';
@@ -151,7 +157,24 @@ function translateTextNode(node) {
     if (translation) {
       node.nodeValue = node.nodeValue.replace(text, translation);
     }
-  } else {
+  } else if (node.nodeType === 1) { // Node.ELEMENT_NODE
+    if (node.hasAttribute('data-tip')) {
+      let text = node.getAttribute('data-tip').trim();
+      let translation = null;
+      if (currentLang === 'en') {
+        if (dict[text]) translation = dict[text];
+      } else {
+        for (const [pt, en] of Object.entries(dict)) {
+          if (text === en) {
+            translation = pt;
+            break;
+          }
+        }
+      }
+      if (translation) {
+        node.setAttribute('data-tip', translation);
+      }
+    }
     // Ignora inputs e scripts
     if (node.tagName === 'SCRIPT' || node.tagName === 'STYLE') return;
     for (let i = 0; i < node.childNodes.length; i++) {
