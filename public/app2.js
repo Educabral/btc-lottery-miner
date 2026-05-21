@@ -184,7 +184,7 @@ async function fetchStats() {
       const blocksLeft = Math.max(0, nextHalvingBlock - blockHeight);
       const halvingDaysLeft = Math.floor((blocksLeft * 10) / 1440);
       document.getElementById('halvingBlocks').textContent = blocksLeft.toLocaleString('pt-BR');
-      document.getElementById('halvingDays').textContent = `~ ${halvingDaysLeft} Dias`;
+      document.getElementById('halvingDays').textContent = `~ ${halvingDaysLeft} ${t('Dias')}`;
     }
 
     // Último bloco e dificuldade - prefere serverData, fallback para cache mempool
@@ -199,10 +199,10 @@ async function fetchStats() {
 
     // Hardware
     if (serverData?.system) {
-      document.getElementById('cpuName').textContent = serverData.system.cpuModel || 'Computador CPU';
+      document.getElementById('cpuName').textContent = serverData.system.cpuModel || t('Computador CPU');
       document.getElementById('cpuThreads').textContent = serverData.system.cpuCores || 4;
     } else {
-      document.getElementById('cpuName').textContent = navigator.userAgent.includes('Mobile') ? 'Smartphone CPU' : 'Computador CPU';
+      document.getElementById('cpuName').textContent = navigator.userAgent.includes('Mobile') ? t('Smartphone CPU') : t('Computador CPU');
       document.getElementById('cpuThreads').textContent = navigator.hardwareConcurrency || 4;
     }
 
@@ -211,13 +211,13 @@ async function fetchStats() {
     const powerPct = parseInt(document.getElementById('powerMode')?.value || 50);
     const activeThreads = Math.max(1, Math.floor(cores * powerPct / 100));
     const proofThreadsEl = document.getElementById('proofThreads');
-    if (proofThreadsEl) proofThreadsEl.textContent = `${activeThreads} de ${cores} núcleos (${powerPct}% CPU)`;
+    if (proofThreadsEl) proofThreadsEl.textContent = `${activeThreads} ${t('de')} ${cores} ${t('núcleos')} (${powerPct}% CPU)`;
 
     const wallet = getWallet();
     const poolLinkEl = document.getElementById('proofPoolLink');
     if (poolLinkEl && wallet) {
       poolLinkEl.href = `https://web.public-pool.io/#/app/${wallet}`;
-      poolLinkEl.textContent = '🌐 VER MEU WORKER NA PUBLIC POOL →';
+      poolLinkEl.textContent = t('🌐 VER MEU WORKER NA PUBLIC POOL →');
     }
 
     // ── Hashrate e Shares: DADOS REAIS da Public Pool (via servidor) ──
