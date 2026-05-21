@@ -11,6 +11,7 @@
   <meta name="theme-color" content="#050b14">
   <link rel="apple-touch-icon" href="icon-192.png">
   <link rel="stylesheet" href="style.css?v=10">
+  <script src="translations.js?v=2"></script>
 </head>
 <body>
   <div id="soloAlert" class="solo-alert">🚨 UM MINERADOR SOLO ACABOU DE GANHAR 3.125 BTC! 🚨</div>
@@ -58,6 +59,7 @@
       </div>
     </div>
     <div class="header-right" style="display:flex; align-items:center; gap:15px;">
+      <button class="btn-theme" onclick="toggleLanguage()" id="langBtn" title="Change Language / Mudar Idioma" style="font-size: 16px;">🇺🇸</button>
       <button class="btn-theme" onclick="toggleTheme()" id="themeBtn" title="Mudar Tema">☀️</button>
       <div class="price-box">
         <span class="price-label">BTC/USD</span>
@@ -273,13 +275,17 @@
     <!-- QR Code + Compartilhar -->
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:25px;">
 
-      <!-- QR Code -->
-      <div style="background:var(--bg-card); border:1px solid rgba(0,255,102,0.2); border-radius:15px; padding:20px; text-align:center; backdrop-filter:blur(10px);">
-        <div style="font-size:12px; color:var(--neon-green); font-weight:800; letter-spacing:1px; margin-bottom:12px;">📱 ACESSO PELO CELULAR</div>
-        <img id="qrCodeImg" src="" alt="QR Code" style="width:140px; height:140px; border-radius:10px; display:none; margin:0 auto;">
-        <div id="qrCodePlaceholder" style="width:140px; height:140px; background:rgba(0,255,102,0.05); border:1px dashed rgba(0,255,102,0.3); border-radius:10px; display:flex; align-items:center; justify-content:center; margin:0 auto; font-size:11px; color:var(--text-muted);">Carregando...</div>
-        <div id="qrCodeUrl" style="font-size:10px; color:var(--text-muted); margin-top:8px; word-break:break-all;"></div>
-        <div style="font-size:11px; color:var(--text-muted); margin-top:6px;">Aponte a câmera do celular para abrir o painel na mesma rede WiFi</div>
+      <!-- Pixgo Sponsor -->
+      <div style="background:var(--bg-card); border:1px solid rgba(36, 161, 222, 0.4); border-radius:15px; padding:20px; text-align:center; backdrop-filter:blur(10px); display: flex; flex-direction: column; justify-content: center;">
+        <div style="font-size:12px; color:#24A1DE; font-weight:800; letter-spacing:1px; margin-bottom:12px;" data-i18n="sponsor_title">💎 PATROCINADOR OFICIAL</div>
+        <img src="https://pixgo.org/wp-content/uploads/2023/10/Logo-Pixgo-Branco.png" alt="Pixgo" style="height: 35px; margin: 10px auto; filter: drop-shadow(0 0 5px rgba(36,161,222,0.5));" onerror="this.style.display='none'">
+        <div style="font-size:20px; font-weight:900; color:#fff; margin-bottom: 5px;">PIXGO PLATAFORMA</div>
+        <p style="font-size:11px; color:var(--text-muted); line-height:1.6; margin-bottom:15px;" data-i18n="sponsor_desc">
+          A plataforma completa para impulsionar suas vendas e automações.
+        </p>
+        <a href="https://pixgo.org/cadastro?refer=EduCabral" target="_blank" style="background:linear-gradient(135deg,rgba(36, 161, 222, 0.2),rgba(36, 161, 222, 0.05)); border:1px solid rgba(36, 161, 222, 0.5); color:#24A1DE; padding:12px 20px; border-radius:10px; font-family:'JetBrains Mono'; font-size:12px; font-weight:800; text-decoration:none; display:inline-block; letter-spacing:1px; transition:all 0.2s;" onmouseover="this.style.boxShadow='0 0 20px rgba(36, 161, 222, 0.3)'" onmouseout="this.style.boxShadow='none'" data-i18n="sponsor_btn">
+          🚀 CRIAR CONTA GRÁTIS
+        </a>
       </div>
 
       <!-- Compartilhar -->

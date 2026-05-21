@@ -122,11 +122,11 @@ async function fetchStats() {
     const hasWallet = !!getWallet();
 
     if (hasWallet) {
-      document.getElementById('minerStatus').innerHTML = `<strong style="color:#00d278">MINERANDO (SOLO)</strong>`;
+      document.getElementById('minerStatus').innerHTML = `<strong style="color:#00d278">${t('MINERANDO (SOLO)')}</strong>`;
       simulatedUptime += 2;
       if(Math.random() > 0.7) simulatedShares++;
     } else {
-      document.getElementById('minerStatus').innerHTML = `<strong style="color:#FF4444">AGUARDANDO CARTEIRA</strong>`;
+      document.getElementById('minerStatus').innerHTML = `<strong style="color:#FF4444">${t('AGUARDANDO CARTEIRA')}</strong>`;
     }
 
     // Tenta buscar do servidor local primeiro (dados reais da Public Pool)
@@ -333,7 +333,7 @@ function saveWallet() {
   const btn = document.getElementById('btnSaveWallet');
   if (wallet.length < 26) { alert('Endereço BTC inválido!'); return; }
   
-  btn.textContent = 'Iniciando Motor...';
+  btn.textContent = t('Iniciando Motor...');
   
   // Tenta salvar no PC (motor real cpuminer)
   fetch('/api/setup/wallet', {
@@ -353,7 +353,7 @@ function saveWallet() {
     if (isMobile && !minerWorker) startMobileWorker(wallet);
     closeModal();
     fetchStats();
-    btn.textContent = 'SALVAR E INICIAR MINERAÇÃO';
+    btn.textContent = t('🚀 SALVAR E INICIAR MINERAÇÃO');
   }, 500);
 }
 
@@ -461,7 +461,7 @@ function showCopiedFeedback() {
   const btn = document.getElementById('btnCopyStats');
   if (btn) {
     const oldText = btn.textContent;
-    btn.textContent = '✅ COPIADO!';
+    btn.textContent = t('✅ COPIADO!');
     setTimeout(() => btn.textContent = oldText, 2000);
   }
 }
