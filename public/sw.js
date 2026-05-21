@@ -1,4 +1,4 @@
-const CACHE_NAME = 'btc-miner-v5';
+const CACHE_NAME = 'btc-miner-v6';
 const ASSETS = [
   '/',
   '/index.html',
