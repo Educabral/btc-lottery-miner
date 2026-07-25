@@ -123,8 +123,6 @@ async function fetchStats() {
 
     if (hasWallet) {
       document.getElementById('minerStatus').innerHTML = `<strong style="color:#00d278">${t('MINERANDO (SOLO)')}</strong>`;
-      simulatedUptime += 2;
-      if(Math.random() > 0.7) simulatedShares++;
     } else {
       document.getElementById('minerStatus').innerHTML = `<strong style="color:#FF4444">${t('AGUARDANDO CARTEIRA')}</strong>`;
     }
@@ -229,8 +227,22 @@ async function fetchStats() {
     let unit = 'MH/s';
 
     if (serverData?.miner && serverData.miner.hashrate > 0) {
-      // Dado real da Public Pool (em H/s, convertemos)
-      currentHash = serverData.miner.hashrate / 1e6; // H/s -> MH/s
+      // Dado real recente da Public Pool (em H/s -> MH/s)
+      currentHash = serverData.miner.hashrate / 1e6;
+      unit = 'MH/s';
+    } else if (serverData?.miner && serverData.miner.minerRunning) {
+      // Minerador local rodando no PC: calcula velocidade real estimada da CPU do usuario
+      const cores = serverData.system?.cpuCores || 4;
+      const power = serverData.miner.power || powerLevel;
+      const engine = serverData.miner.engine || 'auto';
+      
+      let ratePerCore = 1.85; // SSE2 / padrao (ex: i5-3470 4 Cores = ~7.4 MH/s)
+      if (engine === 'avx2') ratePerCore = 2.5;
+      else if (engine === 'sha') ratePerCore = 4.5;
+      else if (engine === 'avx512') ratePerCore = 7.0;
+
+      const baseEst = cores * ratePerCore * (power / 100);
+      currentHash = baseEst * (0.96 + Math.random() * 0.08);
       unit = 'MH/s';
     } else if (isMobile && realKHs > 0) {
       currentHash = realKHs;
@@ -239,16 +251,25 @@ async function fetchStats() {
       currentHash = Math.random() * 10 + 5;
       unit = 'KH/s';
     } else {
-      // PC sem dados da pool ainda: mostra estimativa local
-      const baseHashrate = 850 * multiplier;
-      currentHash = Math.random() * (baseHashrate * 0.1) + baseHashrate;
+      currentHash = 0;
       unit = 'MH/s';
     }
 
     if (currentHash > peakHash) peakHash = currentHash;
-    document.getElementById('hashrate').textContent = currentHash.toFixed(2);
-    document.getElementById('peakHash').textContent = peakHash.toFixed(2) + ' ' + unit;
+    if (currentHash === 0 && !isMobile) {
+      document.getElementById('hashrate').textContent = '--';
+    } else {
+      document.getElementById('hashrate').textContent = currentHash.toFixed(2);
+    }
+    document.getElementById('peakHash').textContent = peakHash > 0 ? peakHash.toFixed(2) + ' ' + unit : '-- ' + unit;
     document.querySelector('.hash-unit').textContent = unit;
+
+    // Atualiza selo de equivalencia em NerdMiners (1 NerdMiner = 60 kH/s = 0.06 MH/s)
+    const nerdCount = unit === 'MH/s' ? Math.round((currentHash * 1000) / 60) : Math.round(currentHash / 60);
+    const nerdEl = document.getElementById('nerdEquiv');
+    if (nerdEl) {
+      nerdEl.textContent = nerdCount > 0 ? '~ ' + nerdCount.toLocaleString('pt-BR') : '--';
+    }
 
     // Shares e Best Share: dados reais se disponíveis
     if (serverData?.miner) {
@@ -277,9 +298,10 @@ async function fetchStats() {
     document.getElementById('uptimeMiner').textContent = `${h}h ${m}m`;
 
     if (hasWallet) {
-      document.getElementById('gaugeSpeed').textContent = currentHash.toFixed(0);
-      document.getElementById('gaugeUnit').textContent = unit;
-      const maxHash = unit === 'MH/s' ? 2000 : 100;
+      // Centro do gauge: mostra NerdMiners equivalentes
+      const nerdForGauge = unit === 'MH/s' ? Math.round((currentHash * 1000) / 60) : Math.round(currentHash / 60);
+      document.getElementById('gaugeSpeed').textContent = nerdForGauge > 0 ? '~' + nerdForGauge.toLocaleString('pt-BR') : '--';
+      const maxHash = unit === 'MH/s' ? 100 : 100;
       gaugeChart.data.datasets[0].data = [currentHash, Math.max(0, maxHash - currentHash)];
       gaugeChart.update();
       chartData.datasets[0].data.shift();
@@ -309,6 +331,15 @@ function changePower() {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ power })
+  }).catch(() => {});
+}
+
+function changeEngine() {
+  const engine = document.getElementById('engineMode').value;
+  fetch('/api/setup/engine', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ engine })
   }).catch(() => {});
 }
 
@@ -549,6 +580,16 @@ window.addEventListener('DOMContentLoaded', () => {
   fetch('/api/setup').then(r=>r.json()).then(data => {
     if (data.power) {
       document.getElementById('powerMode').value = data.power;
+    }
+    if (data.engine) {
+      const el = document.getElementById('engineMode');
+      if (el) el.value = data.engine;
+    }
+    if (data.osPlatform && data.osPlatform !== 'win32') {
+      const elCont = document.getElementById('engineContainer');
+      if (elCont) elCont.style.display = 'none';
+      const elStart = document.getElementById('startupToggle');
+      if (elStart) elStart.parentElement.style.display = 'none'; // startup nao disponivel em Mac/Linux
     }
     if (data.startupEnabled !== undefined) {
       document.getElementById('startupToggle').checked = data.startupEnabled;

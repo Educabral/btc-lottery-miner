@@ -30,7 +30,7 @@ const STATS_FILE = path.join(__dirname, 'stats.json');
 
 function loadStats() {
   try { if (fs.existsSync(STATS_FILE)) return JSON.parse(fs.readFileSync(STATS_FILE, 'utf8')); } catch (e) {}
-  return { wallet: null, power: 50 };
+  return { wallet: null, power: 50, engine: 'auto' };
 }
 function saveStats(s) {
   try { fs.writeFileSync(STATS_FILE, JSON.stringify(s, null, 2)); } catch (e) {}
@@ -47,11 +47,11 @@ const { execSync } = require('child_process');
 function isMinerRunning() {
   try {
     if (os.platform() === 'win32') {
-      const result = execSync('tasklist /fi "imagename eq cpuminer-sse2.exe" /fo csv /nh', { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] });
-      return result.toLowerCase().includes('cpuminer-sse2.exe');
+      const result = execSync('tasklist /fo csv /nh', { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] });
+      return result.toLowerCase().includes('cpuminer');
     } else {
-      const result = execSync('pgrep -f cpuminer-linux', { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] });
-      return result.trim().length > 0;
+      const result = execSync('ps aux', { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] });
+      return result.toLowerCase().includes('minerd') || result.toLowerCase().includes('cpuminer');
     }
   } catch(e) { return false; }
 }
@@ -63,15 +63,43 @@ function startMinerReal(wallet, power = 50) {
   }
   try { 
     if (os.platform() === 'win32') {
-      execSync('taskkill /f /im cpuminer-sse2.exe', { stdio: 'ignore' }); 
+      execSync('taskkill /f /im cpuminer*', { stdio: 'ignore' }); 
     } else {
-      execSync('pkill -f cpuminer-linux', { stdio: 'ignore' }); 
+      try { execSync('pkill -f minerd', { stdio: 'ignore' }); } catch(e) {}
+      try { execSync('pkill -f cpuminer', { stdio: 'ignore' }); } catch(e) {}
     }
   } catch(e) {}
 
   if (!wallet) return;
 
-  const minerExec = os.platform() === 'win32' ? 'cpuminer-sse2.exe' : 'cpuminer-linux';
+  let minerExec = 'cpuminer-sse2.exe';
+  if (os.platform() === 'win32') {
+    let engine = persistentStats.engine || 'auto';
+    if (engine === 'auto' && cachedCpuInfo && cachedCpuInfo.flags) {
+      const flags = cachedCpuInfo.flags.toLowerCase();
+      if (flags.includes('avx512')) engine = 'avx512';
+      else if (flags.includes('sha')) engine = 'sha';
+      else if (flags.includes('avx2')) engine = 'avx2';
+      else engine = 'sse2';
+    }
+    
+    if (engine === 'avx512') minerExec = 'cpuminer-avx512.exe';
+    else if (engine === 'sha') minerExec = 'cpuminer-avx2-sha.exe';
+    else if (engine === 'avx2') minerExec = 'cpuminer-avx2.exe';
+    else if (engine === 'sse2') minerExec = 'cpuminer-sse2.exe';
+    
+    if (!fs.existsSync(path.join(__dirname, 'miner', minerExec))) {
+       minerExec = 'cpuminer-sse2.exe';
+    }
+  } else if (os.platform() === 'darwin') {
+    minerExec = 'minerd-mac';
+  } else {
+    minerExec = 'minerd-linux';
+    if (!fs.existsSync(path.join(__dirname, 'miner', minerExec)) && fs.existsSync(path.join(__dirname, 'miner', 'cpuminer-linux'))) {
+        minerExec = 'cpuminer-linux';
+    }
+  }
+  
   const minerPath = path.join(__dirname, 'miner', minerExec);
   if (!fs.existsSync(minerPath)) return;
 
@@ -132,7 +160,9 @@ app.get('/api/setup', (req, res) => {
     walletConfigured: !!persistentStats.wallet,
     wallet: persistentStats.wallet,
     power: persistentStats.power || 50,
-    startupEnabled: fs.existsSync(STARTUP_LNK)
+    engine: persistentStats.engine || 'auto',
+    startupEnabled: fs.existsSync(STARTUP_LNK),
+    osPlatform: os.platform()
   });
 });
 
@@ -154,6 +184,17 @@ app.post('/api/setup/power', (req, res) => {
   saveStats(persistentStats);
   
   // Reinicia com a nova força
+  if (persistentStats.wallet) {
+    startMinerReal(persistentStats.wallet, persistentStats.power);
+  }
+  res.json({ ok: true });
+});
+
+app.post('/api/setup/engine', localhostOnly, (req, res) => {
+  const { engine } = req.body;
+  persistentStats.engine = engine;
+  saveStats(persistentStats);
+  
   if (persistentStats.wallet) {
     startMinerReal(persistentStats.wallet, persistentStats.power);
   }
@@ -200,14 +241,15 @@ async function fetchPublicPoolStats(wallet) {
   const now = Date.now();
   if (now - cachedPublicPool.lastFetch < 30000) return cachedPublicPool; // cache 30s
   try {
-    const r = await fetch(`https://web.public-pool.io/api/client/${wallet}`, { signal: AbortSignal.timeout(5000) }).catch(() => null);
+    const r = await fetch(`https://public-pool.io:40557/api/client/${wallet}`, { signal: AbortSignal.timeout(5000) }).catch(() => null);
     if (r && r.ok) {
       const data = await r.json();
+      const acc = data.accounting || {};
       cachedPublicPool = {
-        hashrate: data.hashRate || 0,
-        shares: data.shares || 0,
-        workers: data.workerCount || 1,
-        bestShare: data.bestShare || 0,
+        hashrate: acc.hashRateLast10Minutes || acc.hashRateLastHour || 0,
+        shares: acc.totalAcceptedShares || 0,
+        workers: data.workersCount || 0,
+        bestShare: parseFloat(acc.bestSubmissionDifficulty) || 0,
         lastFetch: now
       };
     }
@@ -306,6 +348,8 @@ app.get('/api/stats', async (req, res) => {
         workers: poolStats.workers,
         poolConnected: poolStats.lastFetch > 0,
         minerRunning: isMinerRunning(),
+        power: persistentStats.power || 50,
+        engine: persistentStats.engine || 'auto',
         uptimeSeconds: isMinerRunning() && minerStartTime > 0 ? Math.floor((Date.now() - minerStartTime) / 1000) : 0
       }
     });
