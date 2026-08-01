@@ -1,38 +1,86 @@
 ===================================================
-      BTC LOTTERY MINER - MANUAL DE INSTALAÇÃO
+      BTC LOTTERY MINER — MANUAL DE INSTALAÇÃO
 ===================================================
 
 Parabéns por adquirir o BTC Lottery Miner!
 Este software permite que o seu computador participe
 do Solo Mining de Bitcoin. Isso significa que ele vai
 "tentar a sorte" para encontrar o próximo bloco da rede.
-Se conseguir, o prêmio integral de 3.125 BTC irá direto
-para a sua carteira!
+Se conseguir, o prêmio integral de 3.125 BTC vai direto
+para a sua carteira Bitcoin!
 
 ---------------------------------------------------
-PASSO A PASSO PARA INICIAR:
+⚠️  ANTES DE COMEÇAR — MUITO IMPORTANTE!
 ---------------------------------------------------
 
-0. IMPORTANTE: Antes de extrair, adicione a pasta nas Exceções do seu Antivírus (Windows Defender) ou desative-o temporariamente. Mineradores são sempre detectados como "falso-positivo" pelos antivírus e podem ser apagados automaticamente!
-1. Extraia esta pasta ZIP para a sua Área de Trabalho ou Documentos.
+Adicione esta pasta nas Exceções do seu Antivírus
+(Windows Defender) ou desative-o temporariamente.
+Mineradores são sempre detectados como "falso-positivo"
+pelos antivírus e podem ser apagados automaticamente!
+
+---------------------------------------------------
+▶  WINDOWS — COMO INICIAR:
+---------------------------------------------------
+
+1. Extraia o ZIP para a Área de Trabalho ou Documentos.
 2. Dê 2 cliques no arquivo "INICIAR.bat".
-   (Ele pode pedir permissão de Administrador na primeira vez para instalar os requisitos).
 3. O painel abrirá automaticamente no seu navegador.
-4. Clique em "MINHA CARTEIRA BTC" e cole o seu endereço de Bitcoin.
-   (IMPORTANTE: O endereço DEVE ser da rede Bitcoin principal. Geralmente começa com "bc1q", "1" ou "3". Não use redes paralelas como BSC ou Polygon).
-5. Deixe rodando!
+4. Clique em "CONFIGURAR CARTEIRA" e cole o seu
+   endereço Bitcoin (começa com bc1q, 1 ou 3).
+5. Clique em "GIRAR A ROLETA" e deixe rodando!
 
-DÚVIDAS FREQUENTES:
+---------------------------------------------------
+🍎  MAC OS — COMO INICIAR:
+---------------------------------------------------
 
-- P: Preciso deixar a janela preta aberta?
-- R: Não! O "INICIAR.bat" roda tudo de forma invisível. Você pode fechar o navegador e o seu PC continuará tentando quebrar o bloco em segundo plano.
+1. Extraia o ZIP e abra a pasta.
+2. Dê 2 cliques no arquivo "INICIAR.command".
+   (Na primeira vez, clique com botão direito →
+    "Abrir" → confirme a abertura.)
+3. O sistema instala as dependências automaticamente
+   e abre o painel no navegador.
 
-- P: Onde vejo minhas chances reais?
-- R: Pelo Dashboard você acompanha quantos "Tickets" (Hashes) seu PC já processou e validou na CKPool.
+---------------------------------------------------
+🐧  LINUX / RASPBERRY PI — COMO INICIAR:
+---------------------------------------------------
 
-- P: Funciona em Mac ou Linux?
-- R: Esta versão é otimizada para Windows.
+1. Extraia o ZIP e abra o terminal na pasta.
+2. Execute: chmod +x INICIAR.sh && ./INICIAR.sh
+3. No Raspberry Pi (ARM), o minerador é compilado
+   automaticamente na primeira execução.
+4. O painel abre em: http://localhost:3500
 
-===================================================
-BOA SORTE NA MINERAÇÃO!
+---------------------------------------------------
+⚡  MOTORES DE MINERAÇÃO (Detecção Automática)
+---------------------------------------------------
+
+O software detecta automaticamente o melhor motor
+para o seu processador:
+
+• AVX-512   → Xeons e servidores     (+800% velocidade)
+• SHA-NI    → AMD Ryzen moderno      (+400% velocidade)
+• AVX2      → Intel/AMD 2013+        (+200% velocidade)
+• SSE2      → PCs antigos            (compatível 100%)
+
+---------------------------------------------------
+❓  DÚVIDAS FREQUENTES:
+---------------------------------------------------
+
+P: Preciso deixar a janela preta aberta?
+R: Não! O minerador roda em segundo plano.
+   Pode fechar o navegador à vontade.
+
+P: Como sei que está funcionando de verdade?
+R: Clique em "VERIFICAR NA PUBLIC POOL" no painel.
+   Você verá seus shares validados na pool oficial.
+
+P: Funciona em Mac ou Linux?
+R: Sim! Use INICIAR.command (Mac) ou INICIAR.sh (Linux).
+
+P: A que equivale a velocidade da minha máquina?
+R: O painel mostra em tempo real quantos NerdMiners
+   (aparelhos de 60 kH/s) o seu PC substitui!
+
+---------------------------------------------------
+      ⛏️  BOA SORTE NA MINERAÇÃO!  ⛏️
 ===================================================
