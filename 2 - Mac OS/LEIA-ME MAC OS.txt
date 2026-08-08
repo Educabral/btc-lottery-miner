@@ -1,0 +1,22 @@
+=====================================================
+    BTC LOTTERY MINER — PASSO A PASSO MAC OS
+=====================================================
+
+1. CLIQUE COM O BOTÃO DIREITO no arquivo "INICIAR.command" nesta pasta.
+2. Selecione "Abrir" no menu (NÃO dê duplo clique na 1ª vez).
+3. Na janela de confirmação do macOS, clique em "Abrir".
+4. O Terminal abre e instala tudo automaticamente.
+5. O painel abre no seu navegador em http://localhost:3500.
+
+-----------------------------------------------------
+⚠️  SE O MAC BLOQUEAR O ARQUIVO (GATEKEEPER):
+-----------------------------------------------------
+1. Abra a aplicação Terminal no Mac.
+2. Digite 'cd ' (com espaço) e arraste a pasta "2 - Mac OS" para o terminal.
+3. Execute o comando:
+   xattr -d com.apple.quarantine INICIAR.command && chmod +x INICIAR.command
+4. Pronto! Agora basta dar duplo clique em INICIAR.command.
+
+-----------------------------------------------------
+  Comunidade Telegram: https://t.me/BilheteDoBloco
+=====================================================

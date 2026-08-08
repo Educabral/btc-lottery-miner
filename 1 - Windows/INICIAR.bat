@@ -1,6 +1,6 @@
 @echo off
-title BTC Lottery Miner
-cd /d "%~dp0componentes"
+title BTC Lottery Miner - Windows
+cd /d "%~dp0..\sistema"
 
 if not exist "%APPDATA%\npm\node.exe" (
     where node >nul 2>nul
@@ -27,7 +27,7 @@ if not exist "node_modules" (
 )
 
 echo [+] Iniciando o Servidor Oculto...
-powershell -ExecutionPolicy Bypass -File "%~dp0componentes\tray_icon.ps1"
+powershell -ExecutionPolicy Bypass -File "%~dp0..\sistema\tray_icon.ps1"
 echo [+] Abrindo o painel no navegador...
 timeout /t 2 >nul
 start http://localhost:3500

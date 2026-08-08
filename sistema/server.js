@@ -208,8 +208,8 @@ app.post('/api/setup/startup', localhostOnly, (req, res) => {
   const { enabled } = req.body;
   try {
     if (enabled) {
-      const batPath = path.join(__dirname, '..', '2 - INICIAR (Windows).bat');
-      const rootDir = path.join(__dirname, '..');
+      const batPath = path.join(__dirname, '..', '1 - Windows', 'INICIAR.bat');
+      const rootDir = path.join(__dirname, '..', '1 - Windows');
       const { execSync } = require('child_process');
       const psCommand = `$WshShell = New-Object -comObject WScript.Shell; $Shortcut = $WshShell.CreateShortcut('${STARTUP_LNK}'); $Shortcut.TargetPath = '${batPath}'; $Shortcut.WorkingDirectory = '${rootDir}'; $Shortcut.Save()`;
       execSync(`powershell -Command "${psCommand}"`, { stdio: 'ignore' });

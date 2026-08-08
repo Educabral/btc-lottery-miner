@@ -1,5 +1,5 @@
 #!/bin/bash
-cd "$(dirname "$0")"
+cd "$(dirname "$0")/../sistema"
 
 export PATH="/usr/local/bin:/opt/homebrew/bin:$HOME/.nvm/versions/node/$(ls $HOME/.nvm/versions/node 2>/dev/null | tail -n 1)/bin:$PATH"
 
@@ -22,7 +22,7 @@ if ! command -v node >/dev/null 2>&1; then
     echo ""
     echo "PASSOS:"
     echo "1. Baixe o instalador (.pkg) no site que abriu e instale."
-    echo "2. Clique neste arquivo INICIAR novamente apos instalar."
+    echo "2. Clique neste arquivo INICIAR.command novamente apos instalar."
     echo ""
     read -p "Pressione Enter para sair..."
     exit 1

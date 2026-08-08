@@ -1,0 +1,20 @@
+=====================================================
+  BTC LOTTERY MINER — PASSO A PASSO LINUX / RASPBERRY PI
+=====================================================
+
+1. Extraia a pasta do arquivo ZIP.
+2. Abra o Terminal nesta pasta ("3 - Linux e Raspberry Pi").
+3. Execute o comando para iniciar:
+   chmod +x INICIAR.sh && ./INICIAR.sh
+4. O painel abrirá no navegador em http://localhost:3500.
+
+-----------------------------------------------------
+🍓 NO RASPBERRY PI (ARM):
+-----------------------------------------------------
+Na primeira execução, o sistema compilará o minerador
+nativo automaticamente para o seu chip ARM. Pode levar de
+3 a 8 minutos.
+
+-----------------------------------------------------
+  Comunidade Telegram: https://t.me/BilheteDoBloco
+=====================================================
