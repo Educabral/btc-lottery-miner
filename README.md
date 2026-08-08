@@ -51,14 +51,17 @@ O **Software BTC Lottery Miner** é uma interface premium para mineração solo 
 
 ---
 
-## 📦 Como baixar e instalar
+## 📦 Como Baixar o Programa no GitHub (Passo a Passo para Iniciantes)
 
-### 📥 Download mais fácil (recomendado)
+Se você nunca usou o GitHub, não se preocupe! Baixar é super fácil:
 
-1. Clique no botão verde **`< > Code`** no topo desta página
-2. Clique em **`Download ZIP`**
-3. Extraia o arquivo ZIP na sua Área de Trabalho ou Documentos
-4. Siga o passo a passo do seu sistema operacional abaixo
+```
+1️⃣ No topo desta página, procure pelo botão verde escrito "< > Code" (ou "Código")
+2️⃣ Clique nele e depois selecione a opção "Download ZIP"
+3️⃣ Um arquivo chamado "btc-lottery-miner-master.zip" será baixado no seu computador
+4️⃣ Clique com o botão direito no arquivo baixado e escolha "Extrair Tudo"
+5️⃣ Abra a pasta extraída e siga o passo a passo do seu sistema operacional abaixo!
+```
 
 ---
 
