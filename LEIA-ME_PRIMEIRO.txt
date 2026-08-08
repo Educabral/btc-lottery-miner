@@ -74,7 +74,13 @@ PASSO A PASSO:
 6. O painel abre no navegador em http://localhost:3500
 7. Configure sua carteira e inicie a mineração!
 
-A partir da segunda vez, pode dar duplo clique normalmente.
+⚠️ SE O MAC BLOQUEAR O ARQUIVO (GATEKEEPER / QUARENTENA):
+Se o macOS disser que não pode abrir o arquivo por ser de desenvolvedor não identificado:
+1. Abra o Terminal no Mac
+2. Navegue até a pasta do programa (digite 'cd ' e arraste a pasta para o terminal)
+3. Execute este comando para desbloquear:
+   xattr -d com.apple.quarantine INICIAR.command && chmod +x INICIAR.command
+4. Pronto! Agora pode dar duplo clique normalmente em INICIAR.command.
 
 =====================================================
 🐧  LINUX — INSTALAÇÃO E USO

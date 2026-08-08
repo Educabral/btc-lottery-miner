@@ -105,6 +105,9 @@ function startMinerReal(wallet, power = 50) {
 
   if (os.platform() !== 'win32') {
     try { fs.chmodSync(minerPath, '755'); } catch(e) {}
+    if (os.platform() === 'darwin') {
+      try { execSync(`xattr -d com.apple.quarantine "${minerPath}"`, { stdio: 'ignore' }); } catch(e) {}
+    }
   }
 
   let threads = Math.max(1, Math.floor((os.cpus().length * power) / 100));

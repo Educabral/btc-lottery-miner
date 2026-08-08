@@ -1,5 +1,14 @@
 #!/bin/bash
 cd "$(dirname "$0")"
+
+# Adiciona caminhos padrao do Node.js no Mac (Homebrew, NVM, /usr/local/bin)
+export PATH="/usr/local/bin:/opt/homebrew/bin:$HOME/.nvm/versions/node/$(ls $HOME/.nvm/versions/node 2>/dev/null | tail -n 1)/bin:$PATH"
+
+# Remove atributo de quarentena do Gatekeeper do macOS automaticamente
+xattr -d com.apple.quarantine "$0" 2>/dev/null
+xattr -rd com.apple.quarantine . 2>/dev/null
+chmod +x "$0" 2>/dev/null
+
 echo "========================================="
 echo "  Software BTC Lottery Miner - Mac OS"
 echo "========================================="
@@ -36,11 +45,17 @@ if [ ! -f "miner/minerd-mac" ]; then
     unzip -q miner/temp_mac/cpuminer-mac.zip -d miner/temp_mac/
     mv miner/temp_mac/minerd miner/minerd-mac
     chmod +x miner/minerd-mac
+    xattr -d com.apple.quarantine miner/minerd-mac 2>/dev/null
     rm -rf miner/temp_mac
 fi
 
+# Garante permissao de execucao e remove quarentena do binario
+chmod +x miner/minerd-mac 2>/dev/null
+xattr -d com.apple.quarantine miner/minerd-mac 2>/dev/null
+
 # Inicia o servidor Node em background
 echo "[+] Iniciando o Servidor Oculto..."
+pkill -f "node server.js" 2>/dev/null
 nohup node server.js > /dev/null 2>&1 &
 
 # Abre o navegador
