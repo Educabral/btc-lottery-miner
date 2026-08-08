@@ -11,7 +11,7 @@
 
 **Transforme qualquer PC, Mac ou Raspberry Pi em um Nó Minerador Solo real do Bitcoin.**
 
-[⚡ Comunidade no Telegram](https://t.me/Degenzone21) • [🌐 Verificar na Public Pool](https://web.public-pool.io)
+[⚡ Comunidade no Telegram: @BilheteDoBloco](https://t.me/BilheteDoBloco) • [🌐 Verificar na Public Pool](https://web.public-pool.io)
 
 </div>
 
