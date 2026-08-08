@@ -1,7 +1,6 @@
 #!/bin/bash
-cd "$(dirname "$0")"
+cd "$(dirname "$0")/componentes"
 
-# Adiciona caminhos padrao do Node.js no Linux / Raspberry Pi
 export PATH="/usr/local/bin:/usr/bin:/bin:$HOME/.nvm/versions/node/$(ls $HOME/.nvm/versions/node 2>/dev/null | tail -n 1)/bin:$PATH"
 
 chmod +x "$0" 2>/dev/null
@@ -11,7 +10,6 @@ echo "  Software BTC Lottery Miner - Linux/Pi"
 echo "========================================="
 echo ""
 
-# Verifica se o Node.js esta instalado
 if ! command -v node >/dev/null 2>&1; then
     echo "[!] Node.js nao foi encontrado!"
     echo "[!] Para instalar no Debian/Ubuntu/Raspberry Pi, execute no terminal:"

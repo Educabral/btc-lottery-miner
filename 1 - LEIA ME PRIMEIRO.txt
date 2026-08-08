@@ -1,0 +1,111 @@
+=====================================================
+      BTC LOTTERY MINER — GUIA COMPLETO DE USO
+=====================================================
+
+Bem-vindo ao Software BTC Lottery Miner!
+
+Este software transforma qualquer computador em um
+minerador solo de Bitcoin real. Cada hash calculado
+é um ticket válido na disputa pelos 3.125 BTC do
+próximo bloco da rede — direto para a sua carteira!
+
+=====================================================
+📋 O QUE FAZER PARA COMEÇAR (PASSO A PASSO SEQUENCIAL):
+=====================================================
+
+1. Leia este arquivo de instruções ("1 - LEIA ME PRIMEIRO.txt")
+2. Se você está no Windows, dê 2 cliques no arquivo:
+   "2 - INICIAR (Windows).bat"
+3. Se você está no Mac OS, dê 2 cliques no arquivo:
+   "3 - INICIAR (Mac OS).command"
+4. Se você está no Linux / Raspberry Pi, rode no terminal:
+   "./4 - INICIAR (Linux-Raspberry).sh"
+5. Todas as pastas de sistema e arquivos técnicos estão
+   guardados organizadamente dentro da pasta "componentes".
+
+=====================================================
+⚠️  IMPORTANTE — ANTIVÍRUS (WINDOWS DEFENDER):
+=====================================================
+
+O Windows Defender e outros antivírus detectam
+mineradores como "falso-positivo" e podem apagar
+os arquivos automaticamente.
+
+Antes de extrair o ZIP, faça um dos seguintes:
+→ Adicione esta pasta nas EXCEÇÕES do Windows Defender
+→ Ou desative o antivírus temporariamente
+
+COMO ADICIONAR EXCEÇÃO NO WINDOWS DEFENDER:
+1. Abra "Segurança do Windows" (pesquise no menu Iniciar)
+2. Vá em "Proteção contra vírus e ameaças"
+3. Role até "Configurações" → "Adicionar ou remover exclusões"
+4. Clique em "+ Adicionar uma exclusão" → "Pasta"
+5. Selecione a pasta onde você extraiu o software
+
+=====================================================
+🪟  WINDOWS — PASSO A PASSO
+=====================================================
+
+1. Extraia o ZIP para a Área de Trabalho ou Documentos
+2. Abra a pasta extraída
+3. Dê DUPLO CLIQUE no arquivo "2 - INICIAR (Windows).bat"
+4. Se o Windows mostrar aviso de segurança (SmartScreen):
+   → Clique em "Mais informações"
+   → Clique em "Executar assim mesmo"
+5. O painel abre automaticamente no navegador
+6. Clique em "CONFIGURAR CARTEIRA"
+7. Cole seu endereço Bitcoin e salve
+8. Clique em "GIRAR A ROLETA (INICIAR)"
+9. Deixe rodando! O minerador funciona em segundo plano
+
+=====================================================
+🍎  MAC OS — PASSO A PASSO
+=====================================================
+
+1. Extraia o ZIP e abra a pasta
+2. CLIQUE COM O BOTÃO DIREITO em "3 - INICIAR (Mac OS).command"
+3. Selecione "Abrir" no menu (NÃO dê duplo clique na 1ª vez)
+4. Na janela de confirmação, clique em "Abrir"
+5. O Terminal abre e instala tudo automaticamente
+6. O painel abre no navegador em http://localhost:3500
+
+⚠️ SE O MAC BLOQUEAR O ARQUIVO (GATEKEEPER / QUARENTENA):
+1. Abra o Terminal no Mac
+2. Digite 'cd ' e arraste a pasta do programa para o terminal
+3. Execute:
+   xattr -d com.apple.quarantine "3 - INICIAR (Mac OS).command"
+4. Pronto! Agora pode dar duplo clique normalmente.
+
+=====================================================
+🐧  LINUX / RASPBERRY PI — PASSO A PASSO
+=====================================================
+
+1. Extraia o ZIP
+2. Abra o Terminal dentro da pasta
+3. Execute o comando:
+   chmod +x "4 - INICIAR (Linux-Raspberry).sh" && ./"4 - INICIAR (Linux-Raspberry).sh"
+4. O painel abre em: http://localhost:3500
+
+=====================================================
+❓  DÚVIDAS FREQUENTES
+=====================================================
+
+P: Preciso mexer na pasta 'componentes'?
+R: Não! Toda a inteligência do sistema fica guardada na
+   pasta 'componentes'. Você só precisa clicar no arquivo
+   INICIAR correspondente ao seu sistema operacional.
+
+P: Que carteira devo usar?
+R: Use uma carteira própria: Electrum, Exodus, Ledger,
+   Green Wallet, BlueWallet, etc.
+   NUNCA use endereço de exchange (Binance, Mercado Bitcoin).
+
+P: Como sei que está funcionando de verdade?
+R: Clique em "VERIFICAR NA PUBLIC POOL" no painel.
+
+=====================================================
+       ⛏️  BOA SORTE NA MINERAÇÃO!  ⛏️
+
+  Comunidade Telegram: https://t.me/BilheteDoBloco
+  Verificar Pool: https://web.public-pool.io
+=====================================================
