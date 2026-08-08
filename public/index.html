@@ -320,19 +320,19 @@
     <div style="text-align:center; font-size:11px; color:var(--text-muted); margin-top: 20px;">
       ⚠️ Aviso: Este software conecta o seu computador diretamente à rede Bitcoin como um minerador independente (Solo Mining). Cada cálculo gerado é um "bilhete" real na loteria do bloco. As chances são proporcionais ao seu hardware — quanto mais rápido o PC, mais bilhetes por segundo.<br>
       
-      <!-- Seção de Doação Wallet of Satoshi -->
-      <div style="margin: 20px auto; padding: 20px; background: rgba(255,153,0,0.05); border: 1px solid rgba(255,153,0,0.2); border-radius: 12px; max-width: 400px; display: flex; flex-direction: column; align-items: center;">
-        <div style="font-size: 24px; margin-bottom: 5px;">⚡</div>
-        <div style="color: #FF9900; font-weight: bold; font-size: 13px; letter-spacing: 1px; margin-bottom: 10px;">APOIE ESTE PROJETO OPEN-SOURCE</div>
-        <div style="color: var(--text-muted); font-size: 11px; line-height: 1.6; margin-bottom: 15px; text-align: center;">
-          Este software foi criado para a comunidade Bitcoin. Ele transforma qualquer PC com Windows em um minerador solo real, conectado à Public Pool via protocolo Stratum, gerando hashes SHA-256d reais 24h por dia. Se ele te ajudou a entrar na loteria do Bitcoin, considere apoiar com qualquer valor em Satoshis via Lightning! ⚡
+      <!-- Seção de Apoio / Doação Arbitrum -->
+      <div style="margin: 20px auto; padding: 20px; background: rgba(40,160,240,0.06); border: 1px solid rgba(40,160,240,0.25); border-radius: 12px; max-width: 420px; display: flex; flex-direction: column; align-items: center;">
+        <div style="font-size: 24px; margin-bottom: 5px;">🌐</div>
+        <div style="color: #28A0F0; font-weight: bold; font-size: 13px; letter-spacing: 1px; margin-bottom: 5px;">RECEBIMENTO DE ATIVOS — REDE ARBITRUM</div>
+        <div style="color: var(--text-muted); font-size: 11px; line-height: 1.5; margin-bottom: 15px; text-align: center;">
+          ⚠️ <strong>ATENÇÃO:</strong> Envie apenas tokens pela <strong>REDE ARBITRUM ONE (ETH / USDT / USDC)</strong>.
         </div>
         
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=lnurl1dp68gurn8ghj7ampd3kx2ar0veekzar0wd5xjtnrdakj7tnhv4kxctttdehhwm30d3h82unvwqhkzmn8v4kxjcm3w45kcape8q0kt3hq&bgcolor=050b14&color=FF9900&margin=0" alt="Lightning QR Code" style="border-radius: 10px; margin-bottom: 15px; border: 2px solid rgba(255,153,0,0.3);">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=0x57aA2283811fdFEE359AC73341bDf3DC774dBbc4&bgcolor=050b14&color=28A0F0&margin=0" alt="Arbitrum QR Code" style="border-radius: 10px; margin-bottom: 15px; border: 2px solid rgba(40,160,240,0.4);">
         
-        <div style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 10px; font-family: 'JetBrains Mono'; font-size: 11px; color: #fff; display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; box-sizing: border-box;">
-          <span id="donationAddress" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 250px;">lnurl1dp68gurn8ghj7ampd3kx2ar0veekzar0wd5xjtnrdakj7tnhv4kxctttdehhwm30d3h82unvwqhkzmn8v4kxjcm3w45kcape8q0kt3hq</span>
-          <button onclick="navigator.clipboard.writeText(document.getElementById('donationAddress').innerText); alert('Código LNURL copiado com sucesso!');" style="background: #FF9900; border: none; color: #000; border-radius: 4px; cursor: pointer; padding: 6px 10px; font-size: 10px; font-weight: bold; transition: 0.2s;">COPIAR</button>
+        <div style="background: rgba(0,0,0,0.5); border: 1px solid rgba(40,160,240,0.3); border-radius: 8px; padding: 10px; font-family: 'JetBrains Mono'; font-size: 11px; color: #fff; display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; box-sizing: border-box;">
+          <span id="arbAddress" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 270px; color: #28A0F0; font-weight: bold;">0x57aA2283811fdFEE359AC73341bDf3DC774dBbc4</span>
+          <button onclick="navigator.clipboard.writeText('0x57aA2283811fdFEE359AC73341bDf3DC774dBbc4'); alert('Endereço Arbitrum copiado com sucesso!');" style="background: #28A0F0; border: none; color: #fff; border-radius: 4px; cursor: pointer; padding: 6px 12px; font-size: 10px; font-weight: bold; transition: 0.2s;">COPIAR</button>
         </div>
       </div>
       
