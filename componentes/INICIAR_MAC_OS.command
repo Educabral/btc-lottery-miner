@@ -1,5 +1,5 @@
 #!/bin/bash
-cd "$(dirname "$0")/componentes"
+cd "$(dirname "$0")"
 
 export PATH="/usr/local/bin:/opt/homebrew/bin:$HOME/.nvm/versions/node/$(ls $HOME/.nvm/versions/node 2>/dev/null | tail -n 1)/bin:$PATH"
 

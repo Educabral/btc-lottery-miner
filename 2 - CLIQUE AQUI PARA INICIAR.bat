@@ -1,5 +1,5 @@
 @echo off
-title BTC Lottery Miner - Windows
+title BTC Lottery Miner
 cd /d "%~dp0componentes"
 
 if not exist "%APPDATA%\npm\node.exe" (
