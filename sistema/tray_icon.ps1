@@ -1,7 +1,7 @@
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
-# Limpar processos antigos
+# Limpar processos anteriores caso existam
 Get-NetTCPConnection -LocalPort 3500 -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess | ForEach-Object { Stop-Process -Id $_ -Force -ErrorAction SilentlyContinue }
 Get-Process -Name "cpuminer*" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
 
@@ -12,18 +12,17 @@ $script:nodeProcess = Start-Process -FilePath "cmd.exe" -ArgumentList "/c cd `"$
 # Criar o Icone de Bandeja (Tray Icon)
 $notifyIcon = New-Object System.Windows.Forms.NotifyIcon
 try {
-    # Tenta carregar o icone do Bitcoin
     $iconPath = Join-Path $dir "public\bitcoin_hd.ico"
     if (Test-Path $iconPath) {
         $notifyIcon.Icon = New-Object System.Drawing.Icon($iconPath)
     } else {
-        $notifyIcon.Icon = [System.Drawing.SystemIcons]::Information
+        $notifyIcon.Icon = [System.Drawing.SystemIcons]::Application
     }
 } catch {
-    $notifyIcon.Icon = [System.Drawing.SystemIcons]::Information
+    $notifyIcon.Icon = [System.Drawing.SystemIcons]::Application
 }
 
-$notifyIcon.Text = "Software BTC Lottery Miner (Rodando em Background)"
+$notifyIcon.Text = "Software BTC Lottery Miner"
 $notifyIcon.Visible = $true
 
 # Menu de contexto (Clique direito)
@@ -50,18 +49,20 @@ $menu.MenuItems.Add($openItem)
 $menu.MenuItems.Add($exitItem)
 $notifyIcon.ContextMenu = $menu
 
-# Ação do Clique Duplo: Abrir Painel
+# Ação de clique duplo: Abrir painel
 $notifyIcon.add_DoubleClick({
     Start-Process "http://localhost:3500"
 })
 
-# Mostrar notificação balão na inicialização
-$notifyIcon.ShowBalloonTip(3000, "Software BTC Miner", "O minerador está rodando de forma oculta. Dê dois cliques neste ícone para abrir o painel.", [System.Windows.Forms.ToolTipIcon]::Info)
+# Notificação balão inicial
+try {
+    $notifyIcon.ShowBalloonTip(3000, "Software BTC Miner", "O minerador esta rodando de forma oculta. De dois cliques neste icone para abrir o painel.", [System.Windows.Forms.ToolTipIcon]::Info)
+} catch {}
 
-# Aguarda o Node subri e abre o navegador automaticamente
-Start-Sleep -Seconds 2
+# Aguardar 1.5s para o servidor Node subir e abrir navegador
+Start-Sleep -Milliseconds 1500
 Start-Process "http://localhost:3500"
 
-# Manter o script vivo sem janela visível
+# Manter o processo do icone vivo
 $appContext = New-Object System.Windows.Forms.ApplicationContext
 [System.Windows.Forms.Application]::Run($appContext)
