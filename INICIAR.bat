@@ -1,48 +1,58 @@
 @echo off
-title BTC Lottery Miner - Windows
+title Software BTC Lottery Miner
+cls
 
-:: Verificacao de seguranca contra execucao direta de dentro do WinRAR/ZIP
-if not exist "%~dp0sistema\server.js" (
-    echo ============================================================
-    echo [AVISO IMPORTANTE] VOCE ESTA DENTRO DO ARQUIVO ZIP!
-    echo ============================================================
-    echo.
-    echo Para que o software funcione corretamente:
-    echo 1. Feche esta janela.
-    echo 2. Clique com o botao direito no arquivo ZIP e escolha "Extrair Tudo".
-    echo 3. Abra a pasta extraida e de 2 cliques no INICIAR.
-    echo.
-    pause
-    exit /b
-)
+echo ============================================================
+echo         SOFTWARE BTC LOTTERY MINER
+echo ============================================================
+echo.
 
+if exist "%~dp0sistema\server.js" goto :found_sistema
+
+echo [AVISO] VOCE PRECISA EXTRAIR O ARQUIVO ZIP PRIMEIRO!
+echo.
+echo 1 - Clique com o botao direito no arquivo ZIP.
+echo 2 - Escolha "Extrair Tudo".
+echo 3 - Abra a pasta extraida e de 2 cliques no INICIAR.bat.
+echo.
+pause
+exit /b
+
+:found_sistema
 cd /d "%~dp0sistema"
 
-:: Verificar Node.js
 where node >nul 2>nul
-if %errorlevel% neq 0 (
-    echo [!] Node.js nao foi encontrado no seu PC!
-    echo [!] O motor Node.js e necessario para rodar o software.
-    echo.
-    echo Abrindo o site oficial para download em 3 segundos...
-    timeout /t 3 >nul
-    start https://nodejs.org/en/download/prebuilt-installer
-    echo.
-    echo PASSOS:
-    echo 1. Baixe o instalador (.msi) no site que abriu e instale.
-    echo 2. Clique neste arquivo INICIAR novamente apos instalar.
-    echo.
-    pause
-    exit /b
-)
+if %errorlevel% equ 0 goto :node_found
 
-:: Instalar dependencias se necessario
-if not exist "node_modules" (
-    echo [+] Instalando dependencias do sistema pela primeira vez...
-    call npm install
-)
+echo [!] Node.js nao foi encontrado no seu PC!
+echo [!] Abrindo o site oficial do Node.js para instalar...
+echo.
+ping 127.0.0.1 -n 3 >nul
+start https://nodejs.org/en/download/prebuilt-installer
+echo PASSOS:
+echo 1 - Baixe e instale o Node.js (.msi).
+echo 2 - Abra este arquivo INICIAR.bat novamente.
+echo.
+pause
+exit /b
 
-:: Iniciar o icone de bandeja e servidor de forma 100% oculta
-echo [+] Iniciando o BTC Lottery Miner...
-start "" powershell -WindowStyle Hidden -ExecutionPolicy Bypass -File "%~dp0sistema\tray_icon.ps1"
-exit
+:node_found
+if exist "node_modules" goto :modules_found
+echo [+] Instalando componentes do sistema (aguarde alguns segundos)...
+call npm install
+
+:modules_found
+echo [+] Iniciando o servidor do minerador...
+start "BTC Lottery Miner Server" /min node server.js
+
+echo [+] Abrindo o painel no navegador: http://localhost:3500
+ping 127.0.0.1 -n 3 >nul
+start http://localhost:3500
+
+echo.
+echo ============================================================
+echo  OK - MINERADOR INICIADO COM SUCESSO!
+echo  O painel foi aberto no seu navegador: http://localhost:3500
+echo ============================================================
+echo.
+pause
