@@ -16,14 +16,10 @@ if defined SISTEMA_DIR goto :found_sistema
 
 echo [AVISO] VOCE PRECISA EXTRAIR O ARQUIVO ZIP PRIMEIRO!
 echo.
-echo No momento voce esta tentando rodar direto de dentro do WinRAR/ZIP.
-echo.
-echo PASSOS PARA RESOLVER:
 echo 1 - Feche esta janela.
-echo 2 - Clique com o botao direito no arquivo ZIP na sua Area de Trabalho.
-echo 3 - Selecione "Extrair Tudo..." (ou "Extrair para Software_BTC_Lottery_Miner").
-echo 4 - Abra a pasta amarela descompactada que foi criada.
-echo 5 - De 2 cliques no INICIAR.bat.
+echo 2 - Clique com o botao direito no arquivo ZIP na Area de Trabalho.
+echo 3 - Escolha "Extrair Tudo".
+echo 4 - Abra a pasta descompactada e de 2 cliques no INICIAR.bat.
 echo.
 pause
 exit /b
@@ -34,35 +30,38 @@ cd /d "%SISTEMA_DIR%"
 where node >nul 2>nul
 if %errorlevel% equ 0 goto :node_found
 
-echo [!] Node.js nao foi encontrado no seu PC!
-echo [!] Abrindo o site oficial do Node.js para instalar...
+echo [!] ATENCAO: O Node.js nao esta instalado no seu computador.
+echo [!] O Node.js e necessario para rodar o painel do minerador.
 echo.
+echo [1/2] Abrindo o site oficial do Node.js no seu navegador...
 ping 127.0.0.1 -n 3 >nul
 start https://nodejs.org/en/download/prebuilt-installer
-echo PASSOS:
-echo 1 - Baixe e instale o Node.js (.msi).
-echo 2 - Abra este arquivo INICIAR.bat novamente.
+echo.
+echo [2/2] PASSOS SIMPLES:
+echo   a) Baixe e instale o Node.js no site que acabou de abrir.
+echo   b) Apos terminar a instalacao, de 2 cliques no INICIAR.bat novamente!
 echo.
 pause
 exit /b
 
 :node_found
+echo [+] Node.js detectado com sucesso!
+echo [+] Verificando componentes...
+
 if exist "node_modules" goto :modules_found
-echo [+] Instalando componentes do sistema (aguarde alguns segundos)...
+echo [+] Instalando dependencias iniciais (aguarde alguns segundos)...
 call npm install
 
 :modules_found
-echo [+] Iniciando o servidor do minerador...
-start "BTC Lottery Miner Server" /min node server.js
-
 echo [+] Abrindo o painel no navegador: http://localhost:3500
-ping 127.0.0.1 -n 3 >nul
 start http://localhost:3500
 
 echo.
 echo ============================================================
-echo  OK - MINERADOR INICIADO COM SUCESSO!
-echo  O painel foi aberto no seu navegador: http://localhost:3500
+echo  OK - SERVIDOR INICIADO!
+echo  Mantenha esta janela aberta enquanto estiver minerando.
 echo ============================================================
 echo.
+
+node server.js
 pause
