@@ -208,15 +208,21 @@ app.post('/api/setup/startup', localhostOnly, (req, res) => {
   const { enabled } = req.body;
   try {
     if (enabled) {
-      const batPath = path.join(__dirname, '..', '1 - Windows', 'INICIAR.bat');
-      const rootDir = path.join(__dirname, '..', '1 - Windows');
+      let batPath = path.join(__dirname, '..', 'INICIAR.bat');
+      if (!fs.existsSync(batPath)) {
+        batPath = path.join(__dirname, '..', '1 - Windows', 'INICIAR.bat');
+      }
+      const rootDir = path.dirname(batPath);
       const { execSync } = require('child_process');
-      const psCommand = `$WshShell = New-Object -comObject WScript.Shell; $Shortcut = $WshShell.CreateShortcut('${STARTUP_LNK}'); $Shortcut.TargetPath = '${batPath}'; $Shortcut.WorkingDirectory = '${rootDir}'; $Shortcut.Save()`;
-      execSync(`powershell -Command "${psCommand}"`, { stdio: 'ignore' });
+      const cleanLnk = STARTUP_LNK.replace(/\\/g, '/');
+      const cleanBat = batPath.replace(/\\/g, '/');
+      const cleanDir = rootDir.replace(/\\/g, '/');
+      const psCommand = `$ws = New-Object -ComObject WScript.Shell; $s = $ws.CreateShortcut('${cleanLnk}'); $s.TargetPath = '${cleanBat}'; $s.WorkingDirectory = '${cleanDir}'; $s.WindowStyle = 7; $s.Save()`;
+      execSync(`powershell -ExecutionPolicy Bypass -Command "${psCommand}"`, { stdio: 'pipe' });
     } else {
       if (fs.existsSync(STARTUP_LNK)) fs.unlinkSync(STARTUP_LNK);
     }
-    res.json({ ok: true });
+    res.json({ ok: true, startupEnabled: fs.existsSync(STARTUP_LNK) });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
