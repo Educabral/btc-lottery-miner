@@ -7,19 +7,29 @@ echo         SOFTWARE BTC LOTTERY MINER
 echo ============================================================
 echo.
 
-if exist "%~dp0sistema\server.js" goto :found_sistema
+set "SISTEMA_DIR="
+if exist "%~dp0sistema\server.js" set "SISTEMA_DIR=%~dp0sistema"
+if exist "%~dp0..\sistema\server.js" set "SISTEMA_DIR=%~dp0..\sistema"
+if exist "%~dp0..\..\sistema\server.js" set "SISTEMA_DIR=%~dp0..\..\sistema"
+
+if defined SISTEMA_DIR goto :found_sistema
 
 echo [AVISO] VOCE PRECISA EXTRAIR O ARQUIVO ZIP PRIMEIRO!
 echo.
-echo 1 - Clique com o botao direito no arquivo ZIP.
-echo 2 - Escolha "Extrair Tudo".
-echo 3 - Abra a pasta extraida e de 2 cliques no INICIAR.bat.
+echo No momento voce esta tentando rodar direto de dentro do WinRAR/ZIP.
+echo.
+echo PASSOS PARA RESOLVER:
+echo 1 - Feche esta janela.
+echo 2 - Clique com o botao direito no arquivo ZIP na sua Area de Trabalho.
+echo 3 - Selecione "Extrair Tudo..." (ou "Extrair para Software_BTC_Lottery_Miner").
+echo 4 - Abra a pasta amarela descompactada que foi criada.
+echo 5 - De 2 cliques no INICIAR.bat.
 echo.
 pause
 exit /b
 
 :found_sistema
-cd /d "%~dp0sistema"
+cd /d "%SISTEMA_DIR%"
 
 where node >nul 2>nul
 if %errorlevel% equ 0 goto :node_found
