@@ -380,18 +380,34 @@ app.listen(PORT, '0.0.0.0', () => {
       }
     }
   }
-  
-  const mobileUrl = `http://${localIP}:${PORT}`;
-  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(mobileUrl)}`;
-  
-  console.log(`\n╔══════════════════════════════════════════╗`);
-  console.log(`║   SOFTWARE BTC LOTTERY MINER - ATIVO!  ║`);
-  console.log(`╚══════════════════════════════════════════╝`);
-  console.log(`\n🖥️  Acesso PC:      http://localhost:${PORT}`);
-  console.log(`📱 Acesso Celular: ${mobileUrl}`);
-  console.log(`\n📲 QR CODE para o celular:`);
-  console.log(`   ${qrUrl}`);
-  console.log(`\n   (Cole o link acima no navegador para ver o QR Code)`);
-  console.log(`\n✅ Celular e PC usam o MESMO minerador real!`);
+
+  console.log('\n╔══════════════════════════════════════════╗');
+  console.log('║   SOFTWARE BTC LOTTERY MINER - ATIVO!  ║');
+  console.log('╚══════════════════════════════════════════╝\n');
+  console.log(`🖥️  Acesso PC:      http://localhost:${PORT}`);
+  console.log(`📱 Acesso Celular: http://${localIP}:${PORT}\n`);
+  console.log(`📲 QR CODE para o celular:`);
+  console.log(`   https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=http%3A%2F%2F${localIP}%3A${PORT}\n`);
+  console.log(`   (Cole o link acima no navegador para ver o QR Code)\n`);
+  console.log(`✅ Celular e PC usam o MESMO minerador real!`);
   console.log(`   Tudo verificável em: web.public-pool.io\n`);
+
+  if (persistentStats.wallet) {
+    startMinerReal(persistentStats.wallet, persistentStats.power || 50);
+  }
+});
+
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.log(`\n[i] O Software BTC Lottery Miner ja esta em execucao na porta ${PORT}.`);
+    console.log(`[i] Abrindo o painel no navegador: http://localhost:${PORT}\n`);
+    try {
+      if (os.platform() === 'win32') require('child_process').exec(`start http://localhost:${PORT}`);
+      else if (os.platform() === 'darwin') require('child_process').exec(`open http://localhost:${PORT}`);
+      else require('child_process').exec(`xdg-open http://localhost:${PORT}`);
+    } catch (e) {}
+    process.exit(0);
+  } else {
+    console.error('Erro no servidor:', err);
+  }
 });
