@@ -369,7 +369,7 @@ app.get('/api/stats', async (req, res) => {
   }
 });
 
-app.listen(PORT, '0.0.0.0', () => {
+const server = app.listen(PORT, '0.0.0.0', () => {
   const nets = os.networkInterfaces();
   let localIP = 'localhost';
   for (const name of Object.keys(nets)) {
