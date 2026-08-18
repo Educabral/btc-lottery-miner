@@ -31,7 +31,7 @@ where node >nul 2>nul
 if %errorlevel% equ 0 goto :node_found
 
 echo [!] ATENCAO: O Node.js nao esta instalado no seu computador.
-echo [!] O Node.js e necessario para rodar o painel do minerador.
+echo [!] O Node.js e necessario para rodar o minerador.
 echo.
 echo [1/2] Abrindo o site oficial do Node.js no seu navegador...
 ping 127.0.0.1 -n 3 >nul
@@ -45,23 +45,23 @@ pause
 exit /b
 
 :node_found
-echo [+] Node.js detectado com sucesso!
-echo [+] Verificando componentes...
-
 if exist "node_modules" goto :modules_found
 echo [+] Instalando dependencias iniciais (aguarde alguns segundos)...
 call npm install
 
 :modules_found
-echo [+] Abrindo o painel no navegador: http://localhost:3500
-start http://localhost:3500
+echo [+] Criando atalho oficial na Area de Trabalho...
+powershell -ExecutionPolicy Bypass -Command "$desktop = [Environment]::GetFolderPath('Desktop'); $lnkPath = Join-Path $desktop 'Software BTC Lottery Miner.lnk'; $batPath = '%~f0'; $workDir = '%~dp0'; $iconPath = Join-Path '%SISTEMA_DIR%' 'public\bitcoin_hd.ico'; $ws = New-Object -ComObject WScript.Shell; $s = $ws.CreateShortcut($lnkPath); $s.TargetPath = $batPath; $s.WorkingDirectory = $workDir; if (Test-Path $iconPath) { $s.IconLocation = $iconPath }; $s.Save()" >nul 2>&1
+
+echo [+] Iniciando minerador em segundo plano com icone no relogio...
+start "" powershell -WindowStyle Hidden -ExecutionPolicy Bypass -File "%SISTEMA_DIR%\tray_icon.ps1"
 
 echo.
 echo ============================================================
-echo  OK - SERVIDOR INICIADO!
-echo  Mantenha esta janela aberta enquanto estiver minerando.
+echo  OK - MINERADOR INICIADO EM SEGUNDO PLANO!
+echo  O icone do Bitcoin foi ativado proximo ao relogio.
+echo  O painel foi aberto no seu navegador: http://localhost:3500
 echo ============================================================
 echo.
-
-node server.js
-pause
+ping 127.0.0.1 -n 3 >nul
+exit
